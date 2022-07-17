@@ -1,0 +1,132 @@
+TensorFlow 2.0 Upgrade Script
+-----------------------------
+Converted 12 files
+Detected 1 issues that require attention
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+File: src/cvae.py
+--------------------------------------------------------------------------------
+src/cvae.py:21:16: ERROR: Using member tf.contrib.layers.flatten in deprecated module tf.contrib. tf.contrib.layers.flatten cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+================================================================================
+Detailed log follows:
+
+================================================================================
+================================================================================
+Input tree: 'src/'
+================================================================================
+--------------------------------------------------------------------------------
+Processing file 'src/cvae.py'
+ outputting to 'src/v2/cvae.py'
+--------------------------------------------------------------------------------
+
+19:13: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+21:16: ERROR: Using member tf.contrib.layers.flatten in deprecated module tf.contrib. tf.contrib.layers.flatten cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+22:16: INFO: Renamed 'tf.layers.dense' to 'tf.compat.v1.layers.dense'
+23:17: INFO: Renamed 'tf.layers.dense' to 'tf.compat.v1.layers.dense'
+24:17: INFO: Renamed 'tf.layers.dense' to 'tf.compat.v1.layers.dense'
+25:22: INFO: Renamed 'tf.random_normal' to 'tf.random.normal'
+25:49: INFO: Added keywords to args of function 'tf.shape'
+31:13: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+33:16: INFO: Renamed 'tf.layers.dense' to 'tf.compat.v1.layers.dense'
+34:16: INFO: Renamed 'tf.layers.dense' to 'tf.compat.v1.layers.dense'
+51:8: INFO: Renamed 'tf.reset_default_graph' to 'tf.compat.v1.reset_default_graph'
+56:15: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+59:20: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+61:12: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+70:23: INFO: Added keywords to args of function 'tf.reduce_sum'
+70:37: INFO: Renamed 'tf.squared_difference' to 'tf.math.squared_difference'
+71:29: INFO: Added keywords to args of function 'tf.reduce_sum'
+73:20: INFO: Added keywords to args of function 'tf.reduce_mean'
+75:20: INFO: Renamed 'tf.train.AdamOptimizer' to 'tf.compat.v1.train.AdamOptimizer'
+76:20: INFO: Renamed 'tf.Session' to 'tf.compat.v1.Session'
+77:22: INFO: Renamed 'tf.global_variables_initializer' to 'tf.compat.v1.global_variables_initializer'
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'src/logsig_inversion.py'
+ outputting to 'src/v2/logsig_inversion.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'src/market_generator.py'
+ outputting to 'src/v2/market_generator.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'src/process_discriminator.py'
+ outputting to 'src/v2/process_discriminator.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'src/rough_bergomi.py'
+ outputting to 'src/v2/rough_bergomi.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'src/__init__.py'
+ outputting to 'src/v2/__init__.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'src/.ipynb_checkpoints\\market_generator-checkpoint.py'
+ outputting to 'src/v2/.ipynb_checkpoints\\market_generator-checkpoint.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'src/utils\\leadlag.py'
+ outputting to 'src/v2/utils\\leadlag.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'src/utils\\tjl_dense_numpy_tensor.py'
+ outputting to 'src/v2/utils\\tjl_dense_numpy_tensor.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'src/utils\\tjl_hall_numpy_lie.py'
+ outputting to 'src/v2/utils\\tjl_hall_numpy_lie.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'src/utils\\tosig.py'
+ outputting to 'src/v2/utils\\tosig.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'src/utils\\__init__.py'
+ outputting to 'src/v2/utils\\__init__.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+

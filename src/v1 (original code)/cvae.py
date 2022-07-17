@@ -5,10 +5,7 @@ from tqdm.auto import tqdm
 import tensorflow as tf
 
 class CVAE(object):
-    """
-    Conditional Variational Auto Encoder (CVAE).
-    cond: "label". label 정보를 알고 있으면 encoder, decoder에서 사용
-    """
+    """Conditional Variational Auto Encoder (CVAE)."""
 
     def __init__(self, n_latent, n_hidden=50, alpha=0.2):
         self.n_latent = n_latent
@@ -19,22 +16,22 @@ class CVAE(object):
         return tf.maximum(x, tf.multiply(x, alpha))
 
     def encoder(self, X_in, cond, input_dim):
-        with tf.compat.v1.variable_scope("encoder", reuse=None):
+        with tf.variable_scope("encoder", reuse=None):
             x = tf.concat([X_in, cond], axis=1)
-            x = tf.keras.layers.Flatten()(x)
-            x = tf.keras.layers.Dense(units=self.n_hidden, activation=self.lrelu)(x)
-            mn = tf.keras.layers.Dense(units=self.n_latent, activation=self.lrelu)(x)
-            sd = tf.keras.layers.Dense(units=self.n_latent, activation=self.lrelu)(x)
-            epsilon = tf.random.normal(tf.stack([tf.shape(input=x)[0], self.n_latent]))
+            x = tf.contrib.layers.flatten(x)
+            x = tf.layers.dense(x, units=self.n_hidden, activation=self.lrelu)
+            mn = tf.layers.dense(x, units=self.n_latent, activation=self.lrelu)
+            sd = tf.layers.dense(x, units=self.n_latent, activation=self.lrelu)
+            epsilon = tf.random_normal(tf.stack([tf.shape(x)[0], self.n_latent]))
             z = mn + tf.multiply(epsilon, tf.exp(sd / 2.))
 
             return z, mn, sd
     
     def decoder(self, sampled_z, cond, input_dim):
-        with tf.compat.v1.variable_scope("decoder", reuse=None):
+        with tf.variable_scope("decoder", reuse=None):
             x = tf.concat([sampled_z, cond], axis=1)
-            x = tf.keras.layers.Dense(units=self.n_hidden, activation=self.lrelu)(x)
-            x = tf.keras.layers.Dense(units=input_dim, activation=tf.nn.sigmoid)(x)
+            x = tf.layers.dense(x, units=self.n_hidden, activation=self.lrelu)
+            x = tf.layers.dense(x, units=input_dim, activation=tf.nn.sigmoid)
             x = tf.reshape(x, shape=[-1, input_dim])
 
             return x
@@ -51,17 +48,17 @@ class CVAE(object):
         assert data.max() <= 1. and data.min() >=0., \
             "All features of the dataset must be between 0 and 1."
 
-        tf.compat.v1.reset_default_graph()
+        tf.reset_default_graph()
 
         input_dim = data.shape[1]
         dim_cond = data_cond.shape[1]
 
-        X_in = tf.compat.v1.placeholder(dtype=tf.float32, shape=[None, input_dim],
+        X_in = tf.placeholder(dtype=tf.float32, shape=[None, input_dim],
                               name="X")
                             
-        self.cond = tf.compat.v1.placeholder(dtype=tf.float32, shape=[None, dim_cond],
+        self.cond = tf.placeholder(dtype=tf.float32, shape=[None, dim_cond],
                                    name="c")
-        Y = tf.compat.v1.placeholder(dtype=tf.float32, shape=[None, input_dim],
+        Y = tf.placeholder(dtype=tf.float32, shape=[None, input_dim],
                            name="Y")
 
         Y_flat = Y
@@ -70,14 +67,14 @@ class CVAE(object):
         self.dec = self.decoder(self.sampled, self.cond, input_dim=input_dim)
 
         unreshaped = tf.reshape(self.dec, [-1, input_dim])
-        decoded_loss = tf.reduce_sum(input_tensor=tf.math.squared_difference(unreshaped, Y_flat), axis=1)
-        latent_loss = -0.5 * tf.reduce_sum(input_tensor=1. + sd - tf.square(mn) - tf.exp(sd), axis=1)
+        decoded_loss = tf.reduce_sum(tf.squared_difference(unreshaped, Y_flat), 1)
+        latent_loss = -0.5 * tf.reduce_sum(1. + sd - tf.square(mn) - tf.exp(sd), 1)
 
-        self.loss = tf.reduce_mean(input_tensor=(1 - self.alpha) * decoded_loss + self.alpha * latent_loss)
+        self.loss = tf.reduce_mean((1 - self.alpha) * decoded_loss + self.alpha * latent_loss)
 
-        optimizer = tf.compat.v1.train.AdamOptimizer(learning_rate).minimize(self.loss)
-        self.sess = tf.compat.v1.Session()
-        self.sess.run(tf.compat.v1.global_variables_initializer())
+        optimizer = tf.train.AdamOptimizer(learning_rate).minimize(self.loss)
+        self.sess = tf.Session()
+        self.sess.run(tf.global_variables_initializer())
 
         for i in tqdm(range(n_epochs), desc="Training"):
             self.sess.run(optimizer, feed_dict={X_in: data, self.cond: data_cond, Y: data})

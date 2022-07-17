@@ -56,13 +56,13 @@ class MarketGenerator:
 
     def _build_dataset(self):
         if self.order:
-            self.orig_logsig = np.array([self._logsig(path) for path in tqdm(self.windows, desc="Computing log-signatures")], dtype=object)
+            self.orig_logsig = np.array([self._logsig(path) for path in tqdm(self.windows, desc="Computing log-signatures")])
         else:
-            self.orig_logsig = np.array([np.diff(np.log(path[::2, 1])) for path in self.windows], dtype=object)
+            self.orig_logsig = np.array([np.diff(np.log(path[::2, 1])) for path in self.windows])
 
-            self.orig_logsig = np.array([p for p in self.orig_logsig if len(p) >= 4], dtype=object)
+            self.orig_logsig = np.array([p for p in self.orig_logsig if len(p) >= 4])
             steps = min(map(len, self.orig_logsig))
-            self.orig_logsig = np.array([val[:steps] for val in self.orig_logsig], dtype=object)
+            self.orig_logsig = np.array([val[:steps] for val in self.orig_logsig])
 
         self.scaler = MinMaxScaler(feature_range=(0.00001, 0.99999))
         logsig = self.scaler.fit_transform(self.orig_logsig)
